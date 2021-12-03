@@ -14,6 +14,12 @@ public class CompAV {
     private String description;
     @JsonProperty("Address")
     private String address;
+    @JsonProperty("Exchange")
+    private String exchange;
+    @JsonProperty("DividendDate")
+    private String dividendDate;
+    @JsonProperty("MarketCapitalization")
+    private String marketCapitalization;
 
     public String getSymbol() {
         return symbol;
@@ -53,5 +59,29 @@ public class CompAV {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getExchange() {
+        return exchange;
+    }
+
+    public void setExchange(String exchange) {
+        this.exchange = exchange;
+    }
+
+    public String getDividendDate() {
+        return dividendDate;
+    }
+
+    public void setDividendDate(String dividendDate) {
+        this.dividendDate = dividendDate;
+    }
+
+    public String getMarketCapitalization() {
+        return marketCapitalization;
+    }
+
+    public void setMarketCapitalization(String marketCapitalization) {
+        this.marketCapitalization = marketCapitalization;
     }
 }

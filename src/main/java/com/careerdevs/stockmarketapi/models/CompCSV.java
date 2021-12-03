@@ -9,6 +9,8 @@ public class CompCSV {
     private String ipoDate;
     private String delistingDate;
     private String status;
+    private String dividendDate;
+    private String marketCapitalization;
 
     public String getSymbol() {
         return symbol;
@@ -64,6 +66,22 @@ public class CompCSV {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getDividendDate() {
+        return dividendDate;
+    }
+
+    public void setDividendDate(String dividendDate) {
+        this.dividendDate = dividendDate;
+    }
+
+    public String getMarketCapitalization() {
+        return marketCapitalization;
+    }
+
+    public void setMarketCapitalization(String marketCapitalization) {
+        this.marketCapitalization = marketCapitalization;
     }
 
     @Override

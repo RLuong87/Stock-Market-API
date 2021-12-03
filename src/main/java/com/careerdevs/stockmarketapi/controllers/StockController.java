@@ -38,6 +38,7 @@ public class StockController {
     }
 
 
+    // This method is working
     @GetMapping("/getnasdaq")
     public List<CompAV> getNasdaq(RestTemplate restTemplate) {
 
@@ -57,7 +58,7 @@ public class StockController {
     }
 
 
-
+    // This method is working
     @GetMapping("/getnyse")
     public List<CompAV> getNyse(RestTemplate restTemplate) {
 
@@ -77,6 +78,7 @@ public class StockController {
     }
 
 
+    // This method works
     @GetMapping("/overview")
     public CompAV getOverview(RestTemplate restTemplate,
                               @RequestParam(name = "function") String function,
@@ -88,6 +90,7 @@ public class StockController {
     }
 
 
+    // This method is not working
     @GetMapping("/getexchange")
     public CompAV getOverview2(RestTemplate restTemplate, @RequestParam(name = "exchange") String exchange) {
 

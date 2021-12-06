@@ -1,5 +1,6 @@
 package com.careerdevs.stockmarketapi.models;
 
+
 public class CompCSV {
 
     private String symbol;

@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
-import java.util.ArrayList;
-import java.util.List;
+
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/stock/")
@@ -20,51 +20,89 @@ public class StockController {
     private final String AA_URL = "https://www.alphavantage.co/query";
 
     @Autowired
-    private Environment env;
+    Environment env;
 
     @GetMapping("/getalldata")
-    public List<CompAV> getData(RestTemplate restTemplate) {
+    public ArrayList<CompAV> getData(RestTemplate restTemplate) {
 
-        List<CompCSV> csvData = StockCSVParser.readCSV();
-        List<CompAV> allCompData = new ArrayList<>();
+        ArrayList<CompCSV> csvData = StockCSVParser.readCSV();
+        ArrayList<CompAV> allCompData = new ArrayList<>();
+
+        assert csvData != null;
 
         for (CompCSV compData : csvData) {
 
             String URL = "https://www.alphavantage.co/query?function=OVERVIEW&symbol=" + compData.getSymbol() + "&apikey=" + env.getProperty("alpha.key");
             CompAV compApiData = restTemplate.getForObject(URL, CompAV.class);
+//            allCompData.sort(Comparator.comparing(CompAV::getSymbol));
             allCompData.add(compApiData);
         }
         return allCompData;
     }
 
 
-    // This method is working
+    @GetMapping("/feature1")
+    public ArrayList<CompCSV> getNamesAlphaSymbol() {
+
+        // get CSV data
+        ArrayList<CompCSV> starterData = StockCSVParser.readCSV();
+
+        // sort data
+
+        // Method 1 to sort data
+        assert starterData != null;
+        starterData.sort(new SortCompCSVByName());
+        // Method 2 to sort data
+        starterData.sort(Comparator.comparing(CompCSV::getName));
+
+        //TODO: Remove/ only include name, symbol, and exchange
+//        for (CompCSV comp : starterData) {
+//
+//            comp.setIpoDate(null);
+//            comp.setAssetType(null);
+//            comp.setDelistingDate(null);
+//            comp.setStatus(null);
+//        }
+
+        ArrayList<CompCSV> sortedData = new ArrayList<>();
+        for (CompCSV comp : starterData) {
+            CompCSV tempComp = new CompCSV();
+            tempComp.setName(comp.getName());
+            tempComp.setSymbol(comp.getSymbol());
+            tempComp.setExchange(comp.getExchange());
+            sortedData.add(tempComp);
+        }
+
+        return sortedData;
+    }
+
+
     @GetMapping("/getnasdaq")
-    public List<CompAV> getNasdaq(RestTemplate restTemplate) {
+    public ArrayList<CompCSV> getNasdaq(RestTemplate restTemplate) {
 
-        List<CompCSV> csvData = StockCSVParser.readCSV();
-        List<CompAV> nasdaqData = new ArrayList<>();
+        ArrayList<CompCSV> nasdaqData = StockCSVParser.readCSV();
 
-        for (CompCSV compData : csvData) {
+        assert nasdaqData != null;
+        for (CompCSV compData : nasdaqData) {
 
-            String URL = "https://www.alphavantage.co/query?function=OVERVIEW&symbol=" + compData.getSymbol() + "&apikey=" + env.getProperty("alpha.key");
-            CompAV compApiData = restTemplate.getForObject(URL, CompAV.class);
+//            String URL = "https://www.alphavantage.co/query?function=OVERVIEW&symbol=" + compData.getSymbol() + "&apikey=" + env.getProperty("alpha.key");
+//            CompAV compApiData = restTemplate.getForObject(URL, CompAV.class);
 
             if (compData.getExchange().equals("NASDAQ")) {
-                nasdaqData.add(compApiData);
+                nasdaqData.add(compData);
             }
         }
         return nasdaqData;
     }
 
 
-    // This method is working
     @GetMapping("/getnyse")
     public List<CompAV> getNyse(RestTemplate restTemplate) {
 
         List<CompCSV> csvData = StockCSVParser.readCSV();
         List<CompAV> nyseData = new ArrayList<>();
 
+        assert csvData != null;
         for (CompCSV compData : csvData) {
 
             String URL = "https://www.alphavantage.co/query?function=OVERVIEW&symbol=" + compData.getSymbol() + "&apikey=" + env.getProperty("alpha.key");
@@ -80,22 +118,28 @@ public class StockController {
 
     // This method works
     @GetMapping("/overview")
-    public CompAV getOverview(RestTemplate restTemplate,
-                              @RequestParam(name = "function") String function,
-                              @RequestParam(name = "symbol") String symbol) {
+    public CompAV getOverview(RestTemplate restTemplate, @RequestParam(name = "symbol") String symbol) {
 
-        String URL = "https://www.alphavantage.co/query?function=" + function + "&symbol=" + symbol + "&apikey=" + env.getProperty("alpha.key");
+        String URL = "https://www.alphavantage.co/query?function=OVERVIEW&symbol=" + symbol + "&apikey=" + env.getProperty("alpha.key");
 
         return restTemplate.getForObject(URL, CompAV.class);
     }
 
 
     // This method is not working
-    @GetMapping("/getexchange")
-    public CompAV getOverview2(RestTemplate restTemplate, @RequestParam(name = "exchange") String exchange) {
+//    @GetMapping("/getexchange")
+//    public CompAV getOverview2(RestTemplate restTemplate, @RequestParam(name = "exchange") String exchange) {
+//
+//        String URL = "https://www.alphavantage.co/query?function=OVERVIEW" + "&exchange=" + exchange + env.getProperty("alpha.key");
+//
+//        return restTemplate.getForObject(URL, CompAV.class);
+//    }
 
-        String URL = "https://www.alphavantage.co/query?function=OVERVIEW" + "&exchange=" + exchange + env.getProperty("alpha.key");
+    public static class SortCompCSVByName implements Comparator<CompCSV> {
 
-        return restTemplate.getForObject(URL, CompAV.class);
+        public int compare(CompCSV a, CompCSV b) {
+            return a.getName().compareTo(b.getName());
+        }
     }
+
 }

@@ -15,12 +15,12 @@ public class StockCSVParser {
         System.out.println(readCSV());
     }
 
-    public static List<CompCSV> readCSV() {
+    public static ArrayList<CompCSV> readCSV() {
 
         try {
             CSVReader reader = new CSVReader(new FileReader("src/DataSet1.csv"), ',');
 
-            List<CompCSV> allCompanies = new ArrayList<>();
+            ArrayList<CompCSV> allCompanies = new ArrayList<>();
 
             // read line by line
             String[] record;
@@ -37,7 +37,6 @@ public class StockCSVParser {
                 company.setStatus(record[6]);
                 allCompanies.add(company);
             }
-
             reader.close();
 
             return allCompanies;

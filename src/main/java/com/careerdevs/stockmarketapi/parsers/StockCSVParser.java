@@ -6,7 +6,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class StockCSVParser {
 
@@ -18,7 +17,7 @@ public class StockCSVParser {
     public static ArrayList<CompCSV> readCSV() {
 
         try {
-            CSVReader reader = new CSVReader(new FileReader("src/DataSet1.csv"), ',');
+            CSVReader reader = new CSVReader(new FileReader("src/DataSet2.csv"), ',');
 
             ArrayList<CompCSV> allCompanies = new ArrayList<>();
 

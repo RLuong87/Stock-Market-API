@@ -2,6 +2,7 @@ package com.careerdevs.stockmarketapi.models;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CompAV {
@@ -86,4 +87,15 @@ public class CompAV {
     public void setMarketCapitalization(String marketCapitalization) {
         this.marketCapitalization = marketCapitalization;
     }
+
+    @Autowired
+    public CompAV convertToFeature5v2() {
+
+        setMarketCapitalization(null);
+        setDividendDate(null);
+        setExchange(null);
+
+        return this;
+    }
+
 }

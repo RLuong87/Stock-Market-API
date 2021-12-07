@@ -1,6 +1,9 @@
 package com.careerdevs.stockmarketapi.models;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class CompCSV {
 
     private String symbol;
@@ -17,6 +20,7 @@ public class CompCSV {
         return symbol;
     }
 
+    @JsonProperty("Symbol")
     public void setSymbol(String symbol) {
         this.symbol = symbol;
     }
@@ -25,6 +29,7 @@ public class CompCSV {
         return name;
     }
 
+    @JsonProperty("Name")
     public void setName(String name) {
         this.name = name;
     }
@@ -33,6 +38,7 @@ public class CompCSV {
         return exchange;
     }
 
+    @JsonProperty("Exchange")
     public void setExchange(String exchange) {
         this.exchange = exchange;
     }
@@ -41,6 +47,7 @@ public class CompCSV {
         return assetType;
     }
 
+    @JsonProperty("AssetType")
     public void setAssetType(String assetType) {
         this.assetType = assetType;
     }
@@ -49,6 +56,7 @@ public class CompCSV {
         return ipoDate;
     }
 
+    @JsonProperty("IpoDate")
     public void setIpoDate(String ipoDate) {
         this.ipoDate = ipoDate;
     }
@@ -57,6 +65,7 @@ public class CompCSV {
         return delistingDate;
     }
 
+    @JsonProperty("DelistingDate")
     public void setDelistingDate(String delistingDate) {
         this.delistingDate = delistingDate;
     }
@@ -65,6 +74,7 @@ public class CompCSV {
         return status;
     }
 
+    @JsonProperty("Status")
     public void setStatus(String status) {
         this.status = status;
     }
@@ -73,6 +83,7 @@ public class CompCSV {
         return dividendDate;
     }
 
+    @JsonProperty("DividendDate")
     public void setDividendDate(String dividendDate) {
         this.dividendDate = dividendDate;
     }
@@ -81,6 +92,7 @@ public class CompCSV {
         return marketCapitalization;
     }
 
+    @JsonProperty("MarketCapitalization")
     public void setMarketCapitalization(String marketCapitalization) {
         this.marketCapitalization = marketCapitalization;
     }

@@ -168,48 +168,50 @@ public class StockController {
     }
 
 
-    @GetMapping("/feature5v2")
-    public ArrayList<CompAV> getAllDataAPIv2(RestTemplate restTemplate) {
-
-        ArrayList<CompCSV> csvData = StockCSVParser.readCSV();
-        ArrayList<CompAV> allCompData = new ArrayList<>();
-
-        assert csvData != null;
-        for (CompCSV compData : csvData) {
-
-            CompAV compApiData = restTemplate.getForObject(alphaURL(compData.getSymbol()), CompAV.class);
-
-            assert compApiData != null;
-            CompAV trimmedData = compApiData.convertToFeature5v2();
-            allCompData.add(trimmedData);
-
-        }
-        return allCompData;
-    }
-
-
     @GetMapping("/feature6")
     public ArrayList<CompAV> getNamesAlphaMarketCap(RestTemplate restTemplate) {
 
         // get CSV data
         ArrayList<CompCSV> starterData = StockCSVParser.readCSV();
+        ArrayList<CompAV> allCompData = new ArrayList<>();
 
         // sort data
 
         // Method 1 to sort data
         assert starterData != null;
-
-        ArrayList<CompAV> sortedData = new ArrayList<>();
         for (CompCSV comp : starterData) {
 
-            CompAV tempComp = restTemplate.getForObject(alphaURL(comp.getSymbol()), CompAV.class);
-            assert tempComp != null;
-            CompAV trimmedData = DataConverter.convertToFeature5(tempComp);
-            sortedData.add(trimmedData);
+            CompAV compApiData = restTemplate.getForObject(alphaURL(comp.getSymbol()), CompAV.class);
+            assert compApiData != null;
+            CompAV trimmedData = DataConverter.convertToFeature6(compApiData);
+            allCompData.add(trimmedData);
         }
-        sortedData.sort(new StockComparator.SortCompAVMarketCap());
-        Collections.reverse(sortedData); // sorted Av is sorting from lowest to highest, so the reverse method is reversing the order from highest to lowest
-        return sortedData;
+        allCompData.sort(new StockComparator.SortCompAVMarketCap());
+        Collections.reverse(allCompData); // sorted Av is sorting from lowest to highest, so the reverse method is reversing the order from highest to lowest
+        return allCompData;
+    }
+
+
+    @GetMapping("/feature7")
+    public ArrayList<CompAV> getNamesAlphaDividendDate(RestTemplate restTemplate) {
+
+        // get CSV data
+        ArrayList<CompCSV> starterData = StockCSVParser.readCSV();
+        ArrayList<CompAV> allCompData = new ArrayList<>();
+
+        // sort data
+
+        // Method 1 to sort data
+        assert starterData != null;
+        for (CompCSV comp : starterData) {
+
+            CompAV compApiData = restTemplate.getForObject(alphaURL(comp.getSymbol()), CompAV.class);
+            assert compApiData != null;
+            CompAV trimmedData = DataConverter.convertToFeature7(compApiData);
+            allCompData.add(trimmedData);
+        }
+        allCompData.sort(new StockComparator.SortByDivDate());
+        return allCompData;
     }
 
 

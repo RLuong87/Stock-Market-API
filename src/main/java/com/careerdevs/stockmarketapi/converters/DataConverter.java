@@ -54,4 +54,15 @@ public class DataConverter {
         return newComp;
     }
 
+    public static CompAV convertToFeature7(CompAV comp) {
+
+        CompAV newComp = new CompAV();
+
+        newComp.setSymbol(comp.getSymbol());
+        newComp.setDividendDate(comp.getDividendDate());
+        newComp.setName(comp.getName());
+
+        return newComp;
+    }
+
 }

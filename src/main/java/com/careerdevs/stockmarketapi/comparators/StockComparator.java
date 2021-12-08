@@ -26,7 +26,7 @@ public class StockComparator {
         }
     }
 
-    public static class sortByDivDate implements Comparator<CompAV>{
+    public static class SortByDivDate implements Comparator<CompAV>{
         public int compare (CompAV a, CompAV b){
             try {
                 Date comp1date = new SimpleDateFormat("yyyy-MM-dd").parse(a.getDividendDate());
